@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="style.css">
+  <title>Computing Best Practices</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family:Verdana;color:#aaaaaa;">
+
+<header>
+	<h1 id="test">Computing Best Practices</h1>
+</header>
+
+<div class="body">
+  <nav>
+    <section>
+      <h2>Menu</h2>
+      <a href="">Introduction</a>
+      <a href="#passwords">Passwords</a>
+      <a href="#viruses-phishing">Viruses and Phishing</a>
+      <a href="#encryption-hashing-signing">Encryption, Hashing, and Signing</a>
+      <a href="#data-security">Data Security</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#crypto">Crypto</a>
+    </section>
+  </nav>
+
+  <div id="main" class="main"></div>
+
+</div>
+
+<footer>&copy; Spencer 2021. This page and or contents may be copied with this disclaimer and a link back.</footer>
+
+<script>
+
+
+const dictionary = {
+  "tooltips": "Hint that shows over specific words to help define them.",
+  "mfa": "Short for Multi-Factor Authentication",
+};
+
+let content = {
+  "introduction": `
+    <p>
+      Hover over tooltips to see definitions or more information for specific words.
+    </p>
+    
+    <h3>sitemap</h3>
+    <img alt="sitemap" width="100%" src="images/sitemap.png"/>
+
+    `,
+  "passwords": `
+    <!--This page will contain information about what passwords do, how to make a good password, how to keep a password secure, and why MFA is critical to authentication.
+    --!>
+
+    Passwords are the most basic form of authentication. They work because you
+    and whoever you are trying to authorize with knows it; but no one else does. This is why
+    it is critical to not share the password with others.
+    <div class="tip">Do not re-use passwords.</div>
+
+    Humans are extremely predictable.
+    Therefore a secure password is required. A password generator like the ones found
+    in password managers can provide good random passwords. Passwords also need to have high entropy.
+    Take this example: You can make a password that is between 4 and 12 letters but can only include
+    the character "1". A valid password would look like this: "111111". That does not look secure,
+    and it is not! Because there are only 9 possible passwords.
+  
+    <div class="tip">Use a password generator.</div>
+    
+  `,
+  "viruses-phishing": `
+  Explain antivirus, best practices to avoid viruses, and phishing.
+
+  In basically every Modern OS the best antivirus is common sense. A good ad blocker will prevent you from clicking on fake download buttons
+  and common sense will say to only run software you trust, especially as administrator. If you get a virus or have strange behavior then
+  cleanly reinstall your OS and restore your files from your backup.
+  `,
+  "encryption-hashing-signing": `
+  The basis of security for the modern world. how these apply to the web.
+  `,
+  "data-security": `
+  What are the steps that need to be taken to secure my data on my devices and in the cloud; including data backup
+  `,
+  "privacy": `
+  What is privacy, what kind of data are companies farming, social media, and trade-offs
+  `,
+  "crypto": `
+  What is crypto and how does it work, crypto security, and crypto privacy.
+  `,
+};
+
+
+function navigation () {
+  let data = content[location.hash.substr(1)];
+  if(location.hash === "") {
+    data = content['introduction'];
+  }
+  if(data === undefined) {
+    data = `404 page not found :(`;
+  }
+
+  //Add dictionary tooltips.
+  let split = data.split(/(?<=\W)/);
+  let newData = '';
+  for(let item of split) {
+    var word = item.split(/\W/);
+    let search = dictionary[word[0].toLowerCase()];
+    if(search !== undefined) {
+      //There is a match
+      newData += generateTooltip(item, search);
+    } else {
+      newData += item;
+    }
+  }
+
+  document.getElementById("main").innerHTML = newData;
+}
+
+function generateTooltip (text, tooltip) {
+  let postText = '';
+  if(text[text.length - 1] === " ") {
+    postText = " ";
+  }
+  return `<span class="tooltip">${text}
+  <span class="tooltiptext">${tooltip}</span>
+  </span>${postText}`;
+}
+
+//Handle navigation
+window.onhashchange = navigation;
+navigation();
+  
+</script>
+  
+
+</body>
+</html>
